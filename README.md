@@ -12,3 +12,6 @@ After logging in you will have 4 options.
 4 - quit. Either quit the program or go back to the login.
 
 There are no plans to save the users balance to a database at this point in time.
+
+I have decided to save integers as strings in the user information to keep it simple, with more time it would be more effecient to 
+create a user object that can handle different variable types more easily.
