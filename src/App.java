@@ -73,7 +73,8 @@ public class App
                         break;
                 
                     case 2:
-                        
+                        int newBalance = Deposit(userInput, Integer.parseInt(userList.get(loggedInUserNr)[2]));
+                        userList.get(loggedInUserNr)[2] = Integer.toString(newBalance);  
                         break;
                 
                     case 3:
@@ -81,17 +82,19 @@ public class App
                         break;
                 
                     case 4:
-                        
+                        System.out.println("Logging out..");
+                        loggedIn = false;
                         break;
                 
                     case 5:
-                        
+                        System.out.println("See you later!");
+                        loggedIn = false;
+                        running = false;
                         break;
                 
                     default:
                         break;
                 }
-                loggedIn = false;
             }
         }
         userInput.close();
@@ -133,6 +136,29 @@ public class App
     //Prints the current balance
     public static void PrintBalance(int balance)
     {
-        System.out.println("Your current balance is: " + balance + "kr");
+        System.out.println("Your current balance is: " + balance + "kr\n");
+    }
+    //Makes a deposit to the logged in account
+    public static int Deposit(Scanner userInput, int currentBalance)
+    {
+        System.out.println("How much money do you want to deposit?");
+        int deposit = 0;
+        try 
+        {
+            deposit = userInput.nextInt();
+        } 
+        catch (Exception e) 
+        {
+            System.out.println("Something went wrong, the application can only handle numbers." +
+            " Text and symbols do not work.");
+            userInput.nextLine();
+        }
+        if (deposit < 0) 
+        {
+            System.out.println("You cannot withdraw money with the the deposit option");
+            return currentBalance;
+        }
+        currentBalance += deposit;
+        return currentBalance;
     }
 }
