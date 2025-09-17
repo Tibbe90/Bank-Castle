@@ -1,4 +1,3 @@
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -32,7 +31,8 @@ public class App
                             if (userList.get(i)[0].equals(userSearch))
                             {
                                 System.out.println("Enter your pin code");
-                                if (userList.get(i)[1].equals(userInput.nextLine())) {
+                                if (userList.get(i)[1].equals(userInput.nextLine())) 
+                                {
                                     loggedIn = true;
                                     break;
                                 }
@@ -61,12 +61,40 @@ public class App
             
             while (loggedIn)
             {
-                System.out.println("Logged in");
+                Menu();
+                int loggedInMenu = userInput.nextInt();
+                userInput.nextLine();
+                switch (loggedInMenu) 
+                {
+                    case 1:
+                        
+                        break;
+                
+                    case 2:
+                        
+                        break;
+                
+                    case 3:
+                        
+                        break;
+                
+                    case 4:
+                        
+                        break;
+                
+                    case 5:
+                        
+                        break;
+                
+                    default:
+                        break;
+                }
                 loggedIn = false;
             }
         }
         userInput.close();
     }
+    //Prints the login menu
     public static void Login()
     {
         System.out.println("Welcome to Bank-Castle!\n" +
@@ -75,6 +103,7 @@ public class App
         "2 - Create a new user\n" +
         "3 - Quit");
     }
+    // Creates the user information array
     public static String[] CreateUser(Scanner userInput)
     {
         String[] newUser = new String[3];
@@ -85,4 +114,17 @@ public class App
         newUser[2] = "0";
         return newUser;
     }
+    
+    //Prints the logged in menu
+    public static void Menu() 
+        {
+        System.out.println("\n----------------------------------------------------------------" +
+        "\n\tYou have logged in succesfully. Insert the corresponding menu number to access it." +
+        "\n\t\t 1 - Display you balance" +
+        "\n\t\t 2 - Deposit" + 
+        "\n\t\t 3 - Withdraw" + 
+        "\n\t\t 4 - Log off" +
+        "\n\t\t 5 - Exit the application" +
+        "\n----------------------------------------------------------------");
+        }
 }
