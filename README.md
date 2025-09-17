@@ -14,4 +14,5 @@ After logging in you will have 4 options.
 There are no plans to save the users balance to a database at this point in time.
 
 I have decided to save integers as strings in the user information to keep it simple, with more time it would be more effecient to 
-create a user object that can handle different variable types more easily.
+create a user class that can handle different variable types more easily. This would also improve the security of the user information
+by being inaccessible to the user part of the program.
