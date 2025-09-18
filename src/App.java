@@ -14,54 +14,57 @@ public class App
          * currentUser[2] = Bank Balance
          */
         int loggedInUserNr = 0; //Tracks the index of the logged in user
-        Boolean running = true;
-        Boolean loggedIn = false;
+        Boolean running = true; //Boot menu
+        Boolean loggedIn = false; //Logged in menu
         int Startmenu = 0;
         while(running) 
         {
-            Login();
+            login();
         try 
         {
             Startmenu = userInput.nextInt();
         } 
         catch (Exception e) 
         {
-            ErrorMessage();
+            errorMessage();
         }
             userInput.nextLine();
             switch (Startmenu)
             {
                 case 1: //Log in
                 {
-                    System.out.println("Type in your username");
-                    String userSearch = userInput.nextLine();
-                    for (int i = 0 ; i < userList.size() ; i++)
-                        {
-                            if (userList.get(i)[0].equals(userSearch))
-                            {
-                                System.out.println("Enter your pin code");
-                                if (userList.get(i)[1].equals(userInput.nextLine())) 
-                                {
-                                    loggedInUserNr = i;
-                                    loggedIn = true;
-                                    break;
-                                }
-                                System.out.println("Wrong Pin Code");
-                            }
-                        }
-                        if (loggedIn == false)
-                        {
-                            System.out.println("User not found");
-                        }
+                    loggedInUserNr = findUser(userInput, userList);
+                    if (loggedInUserNr == -1)
+                    {
+                        break;
+                    }
+                    System.out.println("Enter your pin code");
+                    if (userList.get(loggedInUserNr)[1].equals(userInput.nextLine())) 
+                    {
+                        loggedIn = true;
+                        break;
+                    }
+                    System.out.println("Wrong Pin Code");
                     break;
                 }
-                case 2: //Create user
+                case 2: //Change pin code
                 {
-                    currentUser = CreateUser(userInput);
+                    loggedInUserNr = findUser(userInput, userList);
+                    if (loggedInUserNr == -1)
+                    {
+                        break;
+                    }
+                    System.out.println("User found, enter you new pin code");
+                    userList.get(loggedInUserNr)[1] = userInput.nextLine();
+                    break;
+                }
+                case 3: //Create user
+                {
+                    currentUser = createUser(userInput);
                     userList.add(currentUser);
                     break;
                 }
-                case 3: //Quit
+                case 4: //Quit
                 {
                     System.out.println("See you soon!");
                     running = false;
@@ -75,28 +78,36 @@ public class App
             
             while (loggedIn)
             {
-                Menu();
+                menu();
                 int newBalance;
-                int loggedInMenu = userInput.nextInt();
-                userInput.nextLine();
+                int loggedInMenu = 0;
+            try 
+            {
+                loggedInMenu = userInput.nextInt();
+            } 
+            catch (Exception e) 
+            {
+                errorMessage();
+            }
+            userInput.nextLine();
                 switch (loggedInMenu) 
                 {
                     case 1: //Show balance
-                        PrintBalance(Integer.parseInt(userList.get(loggedInUserNr)[2]));
+                        printBalance(Integer.parseInt(userList.get(loggedInUserNr)[2]));
                         break;
                 
                     case 2: //Deposit money
-                        newBalance = Deposit(userInput, Integer.parseInt(userList.get(loggedInUserNr)[2]));
+                        newBalance = deposit(userInput, Integer.parseInt(userList.get(loggedInUserNr)[2]));
                         userList.get(loggedInUserNr)[2] = Integer.toString(newBalance);  
                         break;
                 
                     case 3: //Withdraw money
-                        newBalance = Withdraw(userInput, Integer.parseInt(userList.get(loggedInUserNr)[2]));
+                        newBalance = withdraw(userInput, Integer.parseInt(userList.get(loggedInUserNr)[2]));
                         userList.get(loggedInUserNr)[2] = Integer.toString(newBalance);
                         break;
                 
                     case 4: //Go back to the login menu
-                        System.out.println("Logging out..");
+                        System.out.println("Logging out..\n");
                         loggedIn = false;
                         break;
                 
@@ -114,17 +125,18 @@ public class App
         userInput.close();
     }
     //Prints the login menu
-    public static void Login()
+    public static void login()
     {
         System.out.println("Welcome to Bank-Castle!\n" +
         "What do you want to do? Insert the corresponding number\n" +
         "1 - Log in\n" +
-        "2 - Create a new user\n" +
-        "3 - Quit");
+        "2 - Change pin code\n" +
+        "3 - Create a new user\n" +
+        "4 - Quit");
     }
     
     //Prints the logged in menu
-    public static void Menu() 
+    public static void menu() 
     {
         System.out.println("\n----------------------------------------------------------------" +
         "\n\tYou have logged in succesfully. Insert the corresponding menu number to access it." +
@@ -135,13 +147,14 @@ public class App
         "\n\t\t 5 - Exit the application" +
         "\n----------------------------------------------------------------");
     }
-     public static void ErrorMessage() //Error parsing into int
+    //User did not enter an integer (probably)
+     public static void errorMessage() 
      {
         System.out.println("Something went wrong, the application can only handle numbers." +
             " Text and symbols do not work.");
      }   
     // Creates the user information array
-    public static String[] CreateUser(Scanner userInput)
+    public static String[] createUser(Scanner userInput)
     {
         String[] newUser = new String[3];
         System.out.println("Type in your name");
@@ -151,13 +164,34 @@ public class App
         newUser[2] = "0";
         return newUser;
     }
+    //Change your pin code
+    public static int findUser(Scanner userInput, ArrayList<String[]> userList)
+    {
+        if (userList.size() == 0)
+        {
+            System.out.println("There are no users yet\n");
+            return -1;
+        }
+        System.out.println("Type in your username");
+        String userSearch = userInput.nextLine();
+        for (int i = 0 ; i < userList.size() ; i++)
+        {
+            if (userList.get(i)[0].equals(userSearch))
+            {
+                int userNr = i;
+                return userNr;
+            }
+        }
+        System.out.println("User not found\n");
+        return -1;
+    }
     //Prints the current balance
-    public static void PrintBalance(int balance)
+    public static void printBalance(int balance)
     {
         System.out.println("Your current balance is: " + balance + "kr\n");
     }
     //Makes a deposit to the logged in account
-    public static int Deposit(Scanner userInput, int currentBalance)
+    public static int deposit(Scanner userInput, int currentBalance)
     {
         System.out.println("How much money do you want to deposit?");
         int deposit = 0;
@@ -167,7 +201,7 @@ public class App
         } 
         catch (Exception e) 
         {
-            ErrorMessage();
+            errorMessage();
             userInput.nextLine();
         }
         if (deposit < 0) 
@@ -179,7 +213,7 @@ public class App
         return currentBalance;
     }
     //Makes a withdrawal
-    public static int Withdraw(Scanner userInput, int currentBalance)
+    public static int withdraw(Scanner userInput, int currentBalance)
     {
         System.out.println("How much money do you want to withdraw?");
         int withdraw = 0;
@@ -189,7 +223,7 @@ public class App
         } 
         catch (Exception e) 
         {
-            ErrorMessage();
+            errorMessage();
             userInput.nextLine();
         }
         if (withdraw < 0) 
