@@ -64,6 +64,7 @@ public class App
             while (loggedIn)
             {
                 Menu();
+                int newBalance;
                 int loggedInMenu = userInput.nextInt();
                 userInput.nextLine();
                 switch (loggedInMenu) 
@@ -73,12 +74,13 @@ public class App
                         break;
                 
                     case 2:
-                        int newBalance = Deposit(userInput, Integer.parseInt(userList.get(loggedInUserNr)[2]));
+                        newBalance = Deposit(userInput, Integer.parseInt(userList.get(loggedInUserNr)[2]));
                         userList.get(loggedInUserNr)[2] = Integer.toString(newBalance);  
                         break;
                 
                     case 3:
-                        
+                        newBalance = Withdraw(userInput, Integer.parseInt(userList.get(loggedInUserNr)[2]));
+                        userList.get(loggedInUserNr)[2] = Integer.toString(newBalance);
                         break;
                 
                     case 4:
@@ -159,6 +161,34 @@ public class App
             return currentBalance;
         }
         currentBalance += deposit;
+        return currentBalance;
+    }
+    //Makes a withdrawal
+    public static int Withdraw(Scanner userInput, int currentBalance)
+    {
+        System.out.println("How much money do you want to withdraw?");
+        int withdraw = 0;
+        try 
+        {
+            withdraw = userInput.nextInt();
+        } 
+        catch (Exception e) 
+        {
+            System.out.println("Something went wrong, the application can only handle numbers." +
+            " Text and symbols do not work.");
+            userInput.nextLine();
+        }
+        if (withdraw < 0) 
+        {
+            System.out.println("You cannot deposit money with the the withdrawal option");
+            return currentBalance;
+        }
+        if (withdraw > currentBalance) 
+        {
+            System.out.println("Unfortunately there isn't enough money in you account for this withdrawal");
+            return currentBalance;
+        }
+        currentBalance -= withdraw;
         return currentBalance;
     }
 }
