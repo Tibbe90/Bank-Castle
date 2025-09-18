@@ -8,18 +8,26 @@ public class App
         Scanner userInput = new Scanner(System.in);
         ArrayList<String[]> userList = new ArrayList<String[]>();
         String[] currentUser = new String[3]; 
-        int loggedInUserNr = 0;
         /*
          * currentUser[0] = Username
          * currentUser[1] = Pin Code
          * currentUser[2] = Bank Balance
          */
+        int loggedInUserNr = 0; //Tracks the index of the logged in user
         Boolean running = true;
         Boolean loggedIn = false;
+        int Startmenu = 0;
         while(running) 
         {
             Login();
-            int Startmenu = userInput.nextInt();
+        try 
+        {
+            Startmenu = userInput.nextInt();
+        } 
+        catch (Exception e) 
+        {
+            ErrorMessage();
+        }
             userInput.nextLine();
             switch (Startmenu)
             {
@@ -59,6 +67,10 @@ public class App
                     running = false;
                     break;
                 }
+                default:
+                {
+                    System.out.println("Invalid option");
+                }
             }
             
             while (loggedIn)
@@ -69,26 +81,26 @@ public class App
                 userInput.nextLine();
                 switch (loggedInMenu) 
                 {
-                    case 1:
+                    case 1: //Show balance
                         PrintBalance(Integer.parseInt(userList.get(loggedInUserNr)[2]));
                         break;
                 
-                    case 2:
+                    case 2: //Deposit money
                         newBalance = Deposit(userInput, Integer.parseInt(userList.get(loggedInUserNr)[2]));
                         userList.get(loggedInUserNr)[2] = Integer.toString(newBalance);  
                         break;
                 
-                    case 3:
+                    case 3: //Withdraw money
                         newBalance = Withdraw(userInput, Integer.parseInt(userList.get(loggedInUserNr)[2]));
                         userList.get(loggedInUserNr)[2] = Integer.toString(newBalance);
                         break;
                 
-                    case 4:
+                    case 4: //Go back to the login menu
                         System.out.println("Logging out..");
                         loggedIn = false;
                         break;
                 
-                    case 5:
+                    case 5: //Shut down the program
                         System.out.println("See you later!");
                         loggedIn = false;
                         running = false;
@@ -123,7 +135,11 @@ public class App
         "\n\t\t 5 - Exit the application" +
         "\n----------------------------------------------------------------");
     }
-        
+     public static void ErrorMessage() //Error parsing into int
+     {
+        System.out.println("Something went wrong, the application can only handle numbers." +
+            " Text and symbols do not work.");
+     }   
     // Creates the user information array
     public static String[] CreateUser(Scanner userInput)
     {
@@ -151,8 +167,7 @@ public class App
         } 
         catch (Exception e) 
         {
-            System.out.println("Something went wrong, the application can only handle numbers." +
-            " Text and symbols do not work.");
+            ErrorMessage();
             userInput.nextLine();
         }
         if (deposit < 0) 
@@ -174,8 +189,7 @@ public class App
         } 
         catch (Exception e) 
         {
-            System.out.println("Something went wrong, the application can only handle numbers." +
-            " Text and symbols do not work.");
+            ErrorMessage();
             userInput.nextLine();
         }
         if (withdraw < 0) 
@@ -185,8 +199,9 @@ public class App
         }
         if (withdraw > currentBalance) 
         {
-            System.out.println("Unfortunately there isn't enough money in you account for this withdrawal");
+            System.out.println("Unfortunately there isn't enough money in your account for this withdrawal");
             return currentBalance;
+
         }
         currentBalance -= withdraw;
         return currentBalance;
