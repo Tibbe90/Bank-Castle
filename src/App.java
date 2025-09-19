@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 public class App 
@@ -13,6 +15,8 @@ public class App
          * currentUser[1] = Pin Code
          * currentUser[2] = Bank Balance
          */
+        String[] transactionHistory = new String[]{"","","","","",""};
+        int transactionCounter = 0; //Makes sure the transactionHistory doesn't go out of bounds.
         int loggedInUserNr = 0; //Tracks the index of the logged in user
         Boolean running = true; //Boot menu
         Boolean loggedIn = false; //Logged in menu
@@ -34,27 +38,23 @@ public class App
                 case 1: //Log in
                 {
                     loggedInUserNr = findUser(userInput, userList);
-                    if (loggedInUserNr == -1)
-                    {
+                    if (loggedInUserNr == -1) //Makes sure a user was found
                         break;
-                    }
                     System.out.println("Enter your pin code");
                     if (userList.get(loggedInUserNr)[1].equals(userInput.nextLine())) 
                     {
                         loggedIn = true;
                         break;
                     }
-                    System.out.println("Wrong Pin Code");
+                    System.out.println("Wrong Pin Code\n");
                     break;
                 }
                 case 2: //Change pin code
                 {
                     loggedInUserNr = findUser(userInput, userList);
-                    if (loggedInUserNr == -1)
-                    {
+                    if (loggedInUserNr == -1) //Makes sure a user was found
                         break;
-                    }
-                    System.out.println("User found, enter you new pin code");
+                    System.out.println("User found, enter your new pin code");
                     userList.get(loggedInUserNr)[1] = userInput.nextLine();
                     break;
                 }
@@ -70,6 +70,11 @@ public class App
                     running = false;
                     break;
                 }
+                case 9: //Display latest transactions
+                {
+                    printTransactions(transactionHistory);
+                    break;
+                }
                 default:
                 {
                     System.out.println("Invalid option");
@@ -81,29 +86,38 @@ public class App
                 menu();
                 int newBalance;
                 int loggedInMenu = 0;
-            try 
-            {
-                loggedInMenu = userInput.nextInt();
-            } 
-            catch (Exception e) 
-            {
-                errorMessage();
-            }
-            userInput.nextLine();
+                int transaction = 0;
+                if (transactionCounter == transactionHistory.length)
+                        transactionCounter = 0;
+                try 
+                {
+                    loggedInMenu = userInput.nextInt();
+                } 
+                catch (Exception e) 
+                {
+                    errorMessage();
+                }
+                userInput.nextLine();
                 switch (loggedInMenu) 
                 {
                     case 1: //Show balance
                         printBalance(Integer.parseInt(userList.get(loggedInUserNr)[2]));
                         break;
-                
-                    case 2: //Deposit money
+
+                    case 2: //Deposit money and update transaction history
                         newBalance = deposit(userInput, Integer.parseInt(userList.get(loggedInUserNr)[2]));
+                        transaction = newBalance - Integer.parseInt(userList.get(loggedInUserNr)[2]);
                         userList.get(loggedInUserNr)[2] = Integer.toString(newBalance);  
+                        transactionHistory[transactionCounter] = transactionHistoryUpdate(userList, loggedInUserNr, transaction);
+                        transactionCounter++;
                         break;
                 
-                    case 3: //Withdraw money
+                    case 3: //Withdraw money and update transaction history
                         newBalance = withdraw(userInput, Integer.parseInt(userList.get(loggedInUserNr)[2]));
+                        transaction = newBalance - Integer.parseInt(userList.get(loggedInUserNr)[2]);
                         userList.get(loggedInUserNr)[2] = Integer.toString(newBalance);
+                        transactionHistory[transactionCounter] = transactionHistoryUpdate(userList, loggedInUserNr, transaction);
+                        transactionCounter++;
                         break;
                 
                     case 4: //Go back to the login menu
@@ -118,6 +132,9 @@ public class App
                         break;
                 
                     default:
+                    {
+                        System.out.println("Invalid option");
+                    }
                         break;
                 }
             }
@@ -132,7 +149,8 @@ public class App
         "1 - Log in\n" +
         "2 - Change pin code\n" +
         "3 - Create a new user\n" +
-        "4 - Quit");
+        "4 - Quit\n" +
+        "9 - *ADMIN* Display the 6 latest transactions\n");
     }
     
     //Prints the logged in menu
@@ -146,6 +164,13 @@ public class App
         "\n\t\t 4 - Log off" +
         "\n\t\t 5 - Exit the application" +
         "\n----------------------------------------------------------------");
+    }
+    public static void printTransactions(String[] transactionHistory)
+    {
+        for (int i = 0; i < transactionHistory.length; i++)
+        {
+            System.out.println(transactionHistory[i] + "\n");
+        }
     }
     //User did not enter an integer (probably)
      public static void errorMessage() 
@@ -239,5 +264,15 @@ public class App
         }
         currentBalance -= withdraw;
         return currentBalance;
+    }
+    //Updates the transaction History string[] with the transaction, name, new balance and the date
+    public static String transactionHistoryUpdate(ArrayList<String[]> userList, int loggedInUserNr, int transaction) 
+    {
+        LocalDateTime transactionTime = LocalDateTime.now();
+        DateTimeFormatter transactionDisplayFormat = DateTimeFormatter.ofPattern("E, MMM dd yyyy");
+        String transactionDisplayTime = transactionTime.format(transactionDisplayFormat);
+        String transactionString = userList.get(loggedInUserNr)[0] + " made a " + 
+        transaction + "kr transaction on " + transactionDisplayTime + " and their new balance is " + userList.get(loggedInUserNr)[2];
+        return transactionString;
     }
 }
