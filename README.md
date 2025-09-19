@@ -41,6 +41,6 @@ from the start instead of adding it later. I reused some things that I played ar
 I decided to add support for several users, give each user a pin code (The pin code is decided by the user upon user creation). Each user has their own information
 saved in an ArrayList so you can create as many users as you like and everyone will have their own name, pin and account balance.
 
-I had some time over so I decided to create a transaction history, I created a method that adds a string to the complete transaction information into an array.
+I had some time over so I decided to create a transaction history, I created a method that adds a string with the complete transaction information into an array.
 The array is then looped through when the option to display transaction history is selected in the login menu. The array can be changed to save any number of transactions you desire,
 because the length of the array is always checked and never hard coded.
