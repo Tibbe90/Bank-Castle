@@ -9,6 +9,7 @@ This application is designed to handle multiple users and keep track of their ac
 You will first have to create a user to log in.
 After a user is created you are able to log in and also change the pin of any existing user.
 You will have the following options at startup:
+
 1 - Log in
 
 2 - Change pin code
@@ -20,6 +21,7 @@ You will have the following options at startup:
 9 - *ADMIN* Display the 6 latest transactions
 
 After logging in you will have another 5 options:
+
 1 - view current balance.
 
 2 - deposit a sum of your choice.
