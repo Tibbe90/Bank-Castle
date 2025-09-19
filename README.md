@@ -44,4 +44,4 @@ saved in an ArrayList so you can create as many users as you like and everyone w
 I had some time over so I decided to create a transaction history, I created a method that adds a string with the complete transaction information into an array.
 The array is then looped through when the option to display transaction history is selected in the login menu. The array can be changed to save any number of transactions you desire,
 because the length of the array is always checked and never hard coded.
-I practised adding a formatted date to the transaction history.
+I also practised adding a formatted date to the transaction history.
