@@ -1,5 +1,6 @@
 # Bank-Castle - Tibbes bank application
 (because Frank-Castle is unavailable)
+
 A CLI bank app. This is made for my "introduction to Java" school assignment.
 I have written everything in Visual Studio Code
 
