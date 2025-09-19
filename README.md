@@ -1,11 +1,10 @@
 # Bank-Castle (because Frank-Castle is unavailable)
-A simple CLI bank app. This is made for a "introduction to Java" school assignment.
+A CLI bank app. This is made for my "introduction to Java" school assignment.
 I have written everything in Visual Studio Code
 
 This application is designed to handle multiple users and keep track of their accounts separately.
 You will first have to create a user to log in.
 After a user is created you are able to log in and also change the pin of any existing user.
-You will also be able to use the admin function without logging in at this point.
 
 After logging in you will have 4 options.
 1 - view current balance.
@@ -27,3 +26,8 @@ Another thing that made me scratch my head was that you can't compare strings in
 
 I planned to make some of the extra challenges from the start. This helped me because I created the user information into a ArrayList
 from the start instead of adding it later. I reused some things that I played around with last week, like a for loop to search for a specific user in the list.
+I decided to add support for several users, give each user a pin code (The pin code is decided by the user upon user creation). Each user has their own information
+saved in an ArrayList so you can create as many users as you like and everyone will have their own name, pin and account balance.
+I had some time over so I decided to create a transaction history, I created a method that adds a string the the complete transaction information into an array.
+The array is then looped through when the option to display transaction history is selected in the login menu. The array can be changed to save any number of transactions you desire,
+because the length of the array is always checked and never hard coded.
