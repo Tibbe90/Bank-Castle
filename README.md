@@ -10,16 +10,24 @@ You will first have to create a user to log in.
 After a user is created you are able to log in and also change the pin of any existing user.
 You will have the following options at startup:
 1 - Log in
+
 2 - Change pin code
+
 3 - Create a new user
+
 4 - Quit
+
 9 - *ADMIN* Display the 6 latest transactions
 
 After logging in you will have another 5 options:
 1 - view current balance.
+
 2 - deposit a sum of your choice.
+
 3 - withdraw a sum of your choice.
+
 4 - log out. this will return to the first menu where you can change or create a new user.
+
 5 - quit. Exits the program
 
 There are no plans to save the users balance to a database at this point in time.
