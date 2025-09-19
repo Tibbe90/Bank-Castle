@@ -15,7 +15,7 @@ public class App
          * currentUser[1] = Pin Code
          * currentUser[2] = Bank Balance
          */
-        String[] transactionHistory = new String[]{"","","","","",""};
+        String[] transactionHistory = new String[]{"Still empty","Still empty","Still empty","Still empty","Still empty","Still empty"};
         int transactionCounter = 0; //Makes sure the transactionHistory doesn't go out of bounds.
         int loggedInUserNr = 0; //Tracks the index of the logged in user
         Boolean running = true; //Boot menu
@@ -31,6 +31,7 @@ public class App
         catch (Exception e) 
         {
             errorMessage();
+            Startmenu = 0;
         }
             userInput.nextLine();
             switch (Startmenu)
@@ -66,7 +67,7 @@ public class App
                 }
                 case 4: //Quit
                 {
-                    System.out.println("See you soon!");
+                    exitMessage();
                     running = false;
                     break;
                 }
@@ -96,6 +97,7 @@ public class App
                 catch (Exception e) 
                 {
                     errorMessage();
+                    loggedInMenu = 0;
                 }
                 userInput.nextLine();
                 switch (loggedInMenu) 
@@ -121,12 +123,12 @@ public class App
                         break;
                 
                     case 4: //Go back to the login menu
-                        System.out.println("Logging out..\n");
+                        logOffMessage();
                         loggedIn = false;
                         break;
                 
                     case 5: //Shut down the program
-                        System.out.println("See you later!");
+                        exitMessage();
                         loggedIn = false;
                         running = false;
                         break;
@@ -173,11 +175,21 @@ public class App
         }
     }
     //User did not enter an integer (probably)
-     public static void errorMessage() 
-     {
+    public static void errorMessage() 
+    {
         System.out.println("Something went wrong, the application can only handle numbers." +
             " Text and symbols do not work.");
-     }   
+    }  
+    // An exit message that is used more than once
+    public static void exitMessage()
+    {
+        System.out.println("See you later!");
+    }
+    // A log out message
+    public static void logOffMessage()
+    {
+        System.out.println("Going back to login..");
+    }
     // Creates the user information array
     public static String[] createUser(Scanner userInput)
     {
