@@ -1,7 +1,7 @@
 # Bank-Castle - Tibbes bank application
 (because Frank-Castle is unavailable)
 
-A CLI bank app. This is made for my "introduction to Java" school assignment.
+A CLI bank app. This is made for my "Banken" school assignment in my introduction to Java course.
 I have written everything in Visual Studio Code
 
 This application is designed to handle multiple users and keep track of their accounts separately.
