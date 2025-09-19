@@ -33,7 +33,7 @@ After logging in you will have another 5 options:
 5 - quit. Exits the program
 
 There are no plans to save the users balance to a database at this point in time.
-All menu options besides shutting the program down does most of its actions through methods.
+All menu options does most of its actions through methods.
 
 At first I wanted to save the pin codes and bank balance as integers. 
 Because I wanted to keep all the user information in a simple array, this was not possible. 
